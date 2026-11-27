@@ -2,7 +2,7 @@
   "categories": [
     {
       "id": "operations",
-      "name": "检测中心-检测总览"
+      "name": "检测中心"
     }
   ],
   "prototypes": [
@@ -11,6 +11,12 @@
       "title": "积分管理",
       "categoryId": "operations",
       "description": "体验积分配置、加分申请、审批和排名奖励。"
+    },
+    {
+      "id": "detection-overview",
+      "title": "检测总览",
+      "categoryId": "operations",
+      "description": "查看检测处理时效、业务趋势、积分排名和考核目标。"
     }
   ]
 }
