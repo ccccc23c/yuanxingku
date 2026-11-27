@@ -7,6 +7,10 @@
     {
       "id": "category-1e420e97-bd61-43c1-bc3c-41dcce85f051",
       "name": "财务管理"
+    },
+    {
+      "id": "category-e5cd7758-0fe8-48ee-abfd-f5b9cff3b1b2",
+      "name": "采购中心"
     }
   ],
   "prototypes": [
