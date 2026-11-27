@@ -1,4 +1,5 @@
 const manage = document.createElement('button');
+const local = location.hostname === '127.0.0.1';
 manage.type = 'button';
 manage.textContent = '管理原型';
 manage.className = 'manage-trigger';
@@ -17,17 +18,21 @@ header.append(title, close);
 const frame = document.createElement('iframe');
 frame.title = '编辑菜单名称和分类';
 dialog.append(header, frame);
-document.querySelector('.top').append(manage);
-document.body.append(dialog);
+if (local || !new URLSearchParams(location.search).has('prototype')) {
+  document.querySelector('.top').append(manage);
+  document.body.append(dialog);
+}
 
 let changed = false;
 window.addEventListener('message', event => {
-  if (event.origin === location.origin && event.source === frame.contentWindow && event.data === 'prototype-gallery-saved') {
-    changed = true;
+  if (event.origin !== location.origin || event.source !== frame.contentWindow) return;
+  if (event.data === 'prototype-gallery-saved') changed = true;
+  if (event.data?.type === 'prototype-gallery-published') {
+    window.dispatchEvent(new CustomEvent('prototype-gallery-catalog', {detail: event.data.catalog}));
   }
 });
 manage.addEventListener('click', () => {
-  if (!frame.hasAttribute('src')) frame.src = '/manage/';
+  if (!frame.hasAttribute('src')) frame.src = './manage/';
   dialog.showModal();
 });
 close.addEventListener('click', () => dialog.close());

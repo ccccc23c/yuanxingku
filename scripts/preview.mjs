@@ -9,7 +9,6 @@ const port = Number(process.env.PROTOTYPE_PREVIEW_PORT || 4173);
 const host = `127.0.0.1:${port}`;
 const origin = `http://${host}`;
 const sitePath = fileURLToPath(site);
-const manager = new URL('../manage/', import.meta.url);
 const types = {
   '.html': 'text/html; charset=utf-8', '.css': 'text/css; charset=utf-8',
   '.js': 'text/javascript; charset=utf-8', '.json': 'application/json; charset=utf-8',
@@ -83,23 +82,10 @@ const server = createServer(async (request, response) => {
     if (request.method !== 'GET' && request.method !== 'HEAD') {
       return json(response, 405, {error: '请求方式无效。'});
     }
-    const managerFiles = {
-      '/manage/': 'index.html',
-      '/manage/editor.js': 'editor.js',
-      '/manage/preview-controls.js': 'preview-controls.js'
-    };
-    let file;
-    if (Object.hasOwn(managerFiles, pathname)) {
-      file = fileURLToPath(new URL(managerFiles[pathname], manager));
-    } else {
-      file = resolve(sitePath, '.' + pathname, ...(pathname.endsWith('/') ? ['index.html'] : []));
-      const nested = relative(sitePath, file);
-      if (nested === '..' || nested.startsWith('..' + sep) || isAbsolute(nested)) return json(response, 404, {error: '文件不存在。'});
-    }
-    let data = await readFile(file);
-    if (pathname === '/' || pathname === '/index.html') {
-      data = data.toString('utf8').replace('<!-- local-management -->', '<script type="module" src="/manage/preview-controls.js"></script>');
-    }
+    const file = resolve(sitePath, '.' + pathname, ...(pathname.endsWith('/') ? ['index.html'] : []));
+    const nested = relative(sitePath, file);
+    if (nested === '..' || nested.startsWith('..' + sep) || isAbsolute(nested)) return json(response, 404, {error: '文件不存在。'});
+    const data = await readFile(file);
     response.writeHead(200, {'Content-Type': types[extname(file)] || 'application/octet-stream'});
     response.end(request.method === 'HEAD' ? undefined : data);
   } catch (error) {

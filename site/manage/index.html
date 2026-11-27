@@ -4,14 +4,14 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>管理原型 · 原型展示站</title>
-  <link rel="stylesheet" href="/gallery.css">
+  <link rel="stylesheet" href="../gallery.css">
   <script type="module" src="./editor.js"></script>
   <style>
     .editor { width: min(720px, 90vw); }
     .editor h2 { font-size: 1.15rem; margin-top: 28px; }
     .edit-list { display: grid; gap: 10px; margin: 12px 0; }
     .edit-row { display: grid; grid-template-columns: 1fr auto; gap: 10px; align-items: center; }
-    .edit-row input, .edit-row select, .editor button { border: 1px solid #c4d0e4; border-radius: 7px; padding: 8px 12px; background: white; color: inherit; min-width: 0; }
+    .edit-row input, .edit-row select, .editor button, #token { border: 1px solid #c4d0e4; border-radius: 7px; padding: 8px 12px; background: white; color: inherit; min-width: 0; }
     .editor button { cursor: pointer; }
     .editor button:disabled { cursor: default; opacity: .6; }
     .editor .save { background: #254ba9; color: white; margin: 12px 0; }
@@ -21,19 +21,31 @@
     .prototype-row select { width: 100%; max-width: none; }
     .embedded .top, .embedded h1 { display: none; }
     .embedded .editor { width: auto; padding: 20px; }
+    #authorization { border: 1px solid #dce3ef; border-radius: 7px; margin: 24px 0 4px; padding: 12px; }
+    #authorization label { display: grid; gap: 6px; }
+    #authorization p { margin: 8px 0 0; color: #526179; font-size: .875rem; }
+    #authorization a { color: #254ba9; text-decoration: underline; }
   </style>
 </head>
 <body>
-  <header class="top"><a class="brand" href="/">原型展示站</a></header>
+  <header class="top"><a class="brand" href="../">原型展示站</a></header>
   <main class="library editor">
     <h1>管理原型</h1>
-    <p class="intro">编辑菜单名称和分类。保存后可本地预览，正式发布后访客才能看到修改。</p>
+    <p class="intro" id="editor-intro">编辑菜单名称和分类。保存后可本地预览，正式发布后访客才能看到修改。</p>
     <form id="editor" hidden>
       <h2>分类</h2>
       <div id="categories" class="edit-list"></div>
       <button id="add" type="button">新增分类</button>
       <h2>原型菜单</h2>
       <div id="assignments" class="edit-list"></div>
+      <fieldset id="authorization" hidden>
+        <legend>发布权限</legend>
+        <label>GitHub 发布令牌
+          <input id="token" type="password" autocomplete="off" spellcheck="false" autocapitalize="none">
+        </label>
+        <p>使用仅限 <strong>yuanxingku</strong> 仓库的细粒度令牌，权限设为 <strong>Contents → Read and write</strong>。令牌不会保存。</p>
+        <p><a href="https://github.com/settings/personal-access-tokens/new?name=Prototype+gallery+editor&amp;target_name=ccccc23c&amp;contents=write" target="_blank" rel="noopener noreferrer">在 GitHub 创建令牌</a></p>
+      </fieldset>
       <button class="save" type="submit">保存草稿</button>
     </form>
     <p id="status" class="message" role="status"></p>

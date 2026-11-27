@@ -98,6 +98,11 @@ function renderError(title, message) {
   content.replaceChildren(section);
 }
 
+window.addEventListener('prototype-gallery-catalog', event => {
+  renderMenu(event.detail.prototypes);
+  renderLibrary(event.detail);
+});
+
 try {
   const response = await fetch('./catalog.json', {cache: 'no-cache'});
   if (!response.ok) throw new Error('无法读取原型列表');
