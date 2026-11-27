@@ -23,8 +23,19 @@ export async function publishCatalog({catalog, revision, token}) {
     headers: {...headers, 'Content-Type': 'application/json', Authorization: `Bearer ${token}`},
     body: JSON.stringify({branch, sha: revision, content, message: 'Update prototype categories and menu'})
   });
-  if ([401, 403, 404].includes(response.status)) {
-    throw new Error('GitHub 拒绝写入。请检查令牌是否有效，并为 yuanxingku 授予 Contents 读写权限。');
+  if (response.status === 401) {
+    throw new Error('GitHub 无法验证令牌（401）。请确认已完整复制令牌，且令牌未过期或撤销。');
+  }
+  if (response.status === 429 || (response.status === 403 &&
+      (response.headers.has('retry-after') || response.headers.get('x-ratelimit-remaining') === '0'))) {
+    throw new Error('GitHub 暂时限制了请求频率，请稍后再发布。');
+  }
+  if (response.status === 403 || response.status === 404) {
+    const details = await response.json().catch(() => ({}));
+    if (/rate limit|login attempts/i.test(details.message ?? '')) {
+      throw new Error(`GitHub 暂时限制了请求，请稍后重试（${response.status}）。`);
+    }
+    throw new Error(`GitHub 未授予仓库写入权限（${response.status}）。请用 ccccc23c 创建令牌，在 Repository access 选中 yuanxingku，并将 Contents 设为 Read and write。`);
   }
   if ([409, 422].includes(response.status)) {
     const latest = await readPublishedCatalog();

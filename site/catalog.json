@@ -3,6 +3,10 @@
     {
       "id": "operations",
       "name": "检测中心"
+    },
+    {
+      "id": "category-1e420e97-bd61-43c1-bc3c-41dcce85f051",
+      "name": "财务管理"
     }
   ],
   "prototypes": [
