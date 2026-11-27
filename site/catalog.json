@@ -1,0 +1,16 @@
+{
+  "categories": [
+    {
+      "id": "operations",
+      "name": "检测中心-检测总览"
+    }
+  ],
+  "prototypes": [
+    {
+      "id": "points",
+      "title": "积分管理",
+      "categoryId": "operations",
+      "description": "体验积分配置、加分申请、审批和排名奖励。"
+    }
+  ]
+}

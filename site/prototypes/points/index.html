@@ -1,0 +1,546 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>积分管理 · 检测总览</title>
+<style>
+:root{font-family:"Microsoft YaHei UI","PingFang SC",system-ui,sans-serif;color:#22263a;background:#f6f7fb;font-size:14px;--ink:#22263a;--muted:#626b81;--line:#e7e9f2;--purple:#5045b2;--pale:#eeecfc;--green:#15734e;--red:#aa3d51}
+*{box-sizing:border-box}body{margin:0}button,input,select,textarea{font:inherit}button{cursor:pointer}button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:2px solid #7566d3;outline-offset:2px}
+.top{background:#262342;color:#fff}.top-inner,.container{width:min(1216px,calc(100% - 48px));margin:auto}.top-inner{min-height:66px;display:flex;justify-content:space-between;align-items:center;gap:16px}.brand,.identity{display:flex;align-items:center;gap:12px}.brand-mark{display:grid;place-items:center;border-radius:10px;width:32px;height:32px;background:#7666d6;font-weight:700}.identity label{color:#dedaf4}.identity select{color:#fff;background:#383356;border:1px solid #686185}.identity option{color:var(--ink);background:white}
+.container{padding:27px 0 55px}.crumb{font-size:13px;color:var(--muted)}.intro{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;margin:16px 0 21px}.intro h1{font-size:36px;margin:0 0 6px;letter-spacing:-.05em}.intro p,.subtitle{color:var(--muted);margin:0;line-height:1.65}
+.month{display:flex;align-items:center;gap:9px;color:var(--muted);white-space:nowrap}.tabs{display:flex;gap:22px;border-bottom:1px solid var(--line);margin-bottom:20px}.tab{background:none;border:0;border-bottom:3px solid transparent;padding:12px 4px;color:var(--muted);font-weight:600;white-space:nowrap}.tab[aria-selected=true]{border-color:var(--purple);color:var(--purple)}.pill,.tag{display:inline-block;padding:3px 8px;border-radius:5px;font-size:12px;font-weight:600;white-space:nowrap}.pill{margin-left:6px;background:var(--pale);color:var(--purple)}
+.panel{background:white;border:1px solid var(--line);border-radius:12px;margin-bottom:16px;overflow:hidden}.section-head,.toolbar{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;padding:16px 20px}.section-head h2{font-size:18px;margin:0 0 4px}.toolbar{border-top:1px solid var(--line);justify-content:flex-start}.controls{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.request-filters{gap:16px 22px}.request-filters input,.request-filters select{min-width:140px}#header-month:empty{display:none}
+.scroll{overflow-x:auto}table{width:100%;border-collapse:collapse;text-align:left}th,td{padding:12px 15px;border-bottom:1px solid var(--line);vertical-align:middle}th:first-child,td:first-child{padding-left:20px}th:last-child,td:last-child{padding-right:20px}th{font-size:12px;color:#535c73;background:#f7f8fc;white-space:nowrap}tbody tr:last-child td{border-bottom:0}tbody tr:hover{background:#fafaff}.numeric{font-variant-numeric:tabular-nums;white-space:nowrap}.strong{font-weight:700}.muted{color:var(--muted)}.nowrap{white-space:nowrap}.reason{min-width:125px;max-width:370px;overflow-wrap:anywhere}.empty{text-align:center;padding:30px;color:var(--muted)}
+input,select,textarea{border:1px solid #d8dbe8;border-radius:6px;background:white;color:var(--ink);padding:8px 9px;min-width:0}.config-field{width:90px}.unit{font-size:12px;margin-left:5px;color:var(--muted)}.btn{border:1px solid #d8dbe8;background:white;color:var(--ink);padding:8px 12px;border-radius:7px;font-weight:600;white-space:nowrap}.primary{background:var(--purple);color:white;border-color:var(--purple)}.link{background:none;border:0;padding:3px 0;color:var(--purple);font-weight:600;white-space:nowrap}.link:hover{text-decoration:underline}.actions{display:flex;gap:12px;align-items:center}.tag.pending{background:#fff2d6;color:#885808}.tag.approved{background:#e4f6ed;color:var(--green)}.tag.rejected{background:#fbe9ec;color:var(--red)}.tag.direct,.tag.none{background:#eff1f7;color:#59647b}.points{color:var(--green)}.money{color:var(--purple)}
+.rule-note{margin:0;padding:13px 20px;border-top:1px solid var(--line);background:#faf9ff;color:#514779;line-height:1.65}.footnote{margin:0;padding:13px 20px;color:var(--muted);line-height:1.7}
+details summary{cursor:pointer}.config details summary{padding:14px 20px;font-size:15px;font-weight:600}.config details:not(:last-child){border-bottom:1px solid var(--line)}
+dialog{border:1px solid var(--line);border-radius:13px;color:var(--ink);width:min(560px,calc(100% - 30px));padding:0;max-height:calc(100dvh - 30px);box-shadow:0 20px 70px #21194a30}dialog.wide{width:min(820px,calc(100% - 30px))}dialog::backdrop{background:#23213b70}.modal-head,.modal-foot{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:15px 20px}.modal-head{border-bottom:1px solid var(--line)}.modal-head h2{font-size:19px;margin:0}.modal-body{padding:18px 20px}.modal-foot{justify-content:flex-end;border-top:1px solid var(--line)}.close{font-size:19px;line-height:1;background:none;border:0;color:var(--muted)}.field{display:grid;gap:6px;margin-bottom:13px}.field span{font-weight:600}.field textarea{resize:vertical;min-height:75px}.pair{display:grid;grid-template-columns:1fr 1fr;gap:12px}.facts{display:grid;grid-template-columns:max-content 1fr;gap:9px 15px;margin:0 0 16px}.facts dt{color:var(--muted)}.facts dd{margin:0;overflow-wrap:anywhere}.notification{position:fixed;right:20px;bottom:20px;background:#282443;color:white;padding:11px 16px;border-radius:8px;box-shadow:0 4px 18px #27234240;z-index:3}
+@media(max-width:640px){.top-inner,.container{width:calc(100% - 24px)}.top-inner{flex-wrap:wrap;padding:9px 0;gap:8px}.identity{gap:7px}.container{padding-top:17px}.intro{align-items:flex-start;flex-direction:column;margin:12px 0}.intro h1{font-size:30px}.tabs{gap:15px}.section-head,.toolbar{padding:13px}.pair{grid-template-columns:1fr}}
+.record-field{margin-bottom:15px}.record-field h3{font-size:14px;margin:0 0 8px}
+.record-chips{display:flex;flex-wrap:wrap;gap:7px}.record-chip{background:#f4f7fb;border:1px solid #dce5f1;border-radius:6px;padding:6px 9px;color:#435471;text-align:left}
+.record-chip strong{color:#215fa5;white-space:nowrap;margin-left:5px}.record-chip:hover,.record-chip.linked{background:var(--pale);border-color:#c9bff2;color:var(--purple)}
+.record-summary{margin:9px 0 0;line-height:1.6}.record-error{color:var(--red);margin:6px 0 0}
+.reason .link,.facts .link{white-space:normal;text-align:left}
+.approval-note{min-width:7em;max-width:20em;white-space:pre-wrap;overflow-wrap:anywhere}
+#record-picker{width:min(1080px,calc(100% - 30px))}#record-picker::backdrop{background:#23213b45}
+#record-picker .modal-body{padding-top:12px}#record-picker .subtitle{margin-bottom:10px}
+.picker-table{border:1px solid var(--line);border-radius:7px;max-height:55dvh}
+.picker-table table{min-width:870px}.picker-table th,.picker-table td{padding:10px;white-space:nowrap}
+.picker-table th{position:sticky;top:0;z-index:1}.picker-table td{border-right:1px solid var(--line)}
+.picker-table th:last-child,.picker-table td:last-child{position:sticky;right:0;border-left:1px solid var(--line)}
+.picker-table th:last-child{z-index:2}.picker-table td:last-child{background:white}.picker-table tr[data-record]{cursor:pointer}
+.picker-table tr[data-record]:hover td,.picker-table tr[data-record]:focus-within td,.picker-table tr.linked td{background:#fff6dc}
+.reward-note{margin-top:14px;padding:12px 14px;background:#f6f5fc;border:1px solid var(--line);border-radius:8px;font-size:12px}
+.reward-note h3{margin:0 0 5px;font-size:inherit;color:var(--ink)}
+</style>
+</head>
+<body>
+<header class="top"><div class="top-inner">
+  <div class="brand"><span class="brand-mark" aria-hidden="true">检</span><strong>检测中心</strong></div>
+  <div class="identity"><label for="role">演示身份</label><select id="role"></select></div>
+</div></header>
+<main class="container">
+  <div class="crumb">检测中心 / 检测总览</div>
+  <div class="intro"><div><h1>积分管理</h1><p>按月配置计分规则、处理加分申请、查看排名奖励。</p></div>
+    <div id="header-month"></div>
+  </div>
+  <nav id="tabs" class="tabs" role="tablist" aria-label="积分管理"></nav>
+  <div id="content" role="tabpanel"></div>
+</main>
+<dialog id="modal"><form id="dialog-form"></form></dialog>
+<dialog id="record-picker" aria-labelledby="picker-title">
+  <form method="dialog">
+    <div class="modal-head"><h2 id="picker-title"></h2><button class="close" aria-label="关闭记录选择">×</button></div>
+    <div id="picker-body" class="modal-body"></div>
+    <div class="modal-foot"><button id="picker-return" class="btn">返回申请</button></div>
+  </form>
+</dialog>
+<div id="notice" class="notification" role="status" hidden></div>
+<script>
+const people = [
+  {id:'p1',name:'张晨'},
+  {id:'p2',name:'李佳'},
+  {id:'p3',name:'王欣'},
+  {id:'p4',name:'陈宇'},
+  {id:'p5',name:'赵琳'},
+  {id:'p6',name:'周敏'}
+];
+const catalog = [
+  {title:'外部业务 · 乃棠检测服务',unit:'份',rows:'失效分析、个性定制、寿命测试、视频会议、使用痕检、上门服务、切片层级、数据测试、材质分析、上锡确认、容值测试、抗弯应力、常规检测、外援、对比分析'.split('、').map(name=>[name,'','',''])},
+  {title:'内部业务',unit:'条',rows:[['内部来料管理',1,4,4],['内部CGA管理',1,4,4],['内部切片管理',1,23,23],['内部标准数据',1,964,964],['内部寿命测试',1,156,156],['内部寿命评估',1,10,10]]},
+  {title:'售后业务',unit:'份',rows:[['售后检测相关',1,180,180],['售后数据文件',1,100,100],['售后客诉登记',1,180,180]]}
+];
+const monthNow = '2026-11', demoToday = '2026-11-25';
+const projectScoreHistory = {
+  [monthNow]:{
+    p1:[['乃棠检测 · 个性定制',6800],['内部来料管理',3200]],
+    p2:[['乃棠检测 · 常规检测',4200],['乃棠检测 · 寿命测试',2100],['内部标准数据',1200]],
+    p3:[['内部标准数据',4800],['售后客诉登记',2400]],
+    p4:[['乃棠检测 · 失效分析',5000],['内部寿命测试',1200]],
+    p5:[['内部切片管理',4900],['售后检测相关',1200]],
+    p6:[['售后检测相关',4500],['售后数据文件',1500]]
+  },
+  '2026-10':{
+    p1:[['乃棠检测 · 个性定制',6700],['内部来料管理',3100]],
+    p2:[['乃棠检测 · 常规检测',5700],['内部标准数据',2500]],
+    p3:[['内部标准数据',4900],['售后客诉登记',2400]],
+    p4:[['乃棠检测 · 失效分析',5100],['内部寿命测试',1100]],
+    p5:[['内部切片管理',4700],['售后检测相关',1200]],
+    p6:[['售后检测相关',4200],['售后数据文件',1400]]
+  },
+  '2026-07':{
+    p1:[['乃棠检测 · 个性定制',6900],['内部来料管理',3400]],
+    p2:[['乃棠检测 · 常规检测',5400],['内部标准数据',2700]],
+    p3:[['内部标准数据',4600],['售后客诉登记',2600]],
+    p4:[['乃棠检测 · 失效分析',5500],['内部寿命测试',1300]],
+    p5:[['内部切片管理',4500],['售后检测相关',1300]],
+    p6:[['售后检测相关',4200],['售后数据文件',1350]]
+  }
+};
+const statuses = {pending:'待审批',approved:'已同意',rejected:'不同意',direct:'主管加分'};
+const businessRecords = [
+  {person:'p1',module:'乃棠检测服务',project:'个性定制',id:'NT-261030-006',title:'专项检测报告',completed:'2026-10-30'},
+  {person:'p1',module:'内部业务',project:'来料管理',id:'IN-261120-012',title:'来料批次确认',completed:'2026-11-20'},
+  {person:'p2',module:'乃棠检测服务',project:'常规检测',id:'NT-261124-003',title:'紧急样品复测报告',order:'82',customer:'恒嘉电子（示例）',samples:2,model:'0603 22µF 6.3V',completed:'2026-11-24'},
+  {person:'p2',module:'乃棠检测服务',project:'常规检测',id:'NT-261120-011',title:'片式电阻来样检测报告',order:'75',customer:'远珩科技（示例）',samples:4,model:'0402 10kΩ',completed:'2026-11-20'},
+  {person:'p2',module:'乃棠检测服务',project:'寿命测试',id:'NT-261121-008',title:'电容寿命测试报告',order:'78',customer:'恒嘉电子（示例）',samples:5,model:'0805 10µF 25V',completed:'2026-11-21'},
+  {person:'p2',module:'内部业务',project:'标准数据',id:'IN-261118-007',title:'检测资料归档',completed:'2026-11-18'},
+  {person:'p2',module:'乃棠检测服务',project:'常规检测',id:'NT-261125-009',title:'焊点截面分析'},
+  {person:'p3',module:'内部业务',project:'标准数据',id:'IN-261122-005',title:'检测设备操作说明',completed:'2026-11-22'},
+  {person:'p3',module:'售后业务',project:'售后客诉登记',id:'AS-261118-002',title:'客诉样品复核',samples:1,completed:'2026-11-18'},
+  {person:'p4',module:'乃棠检测服务',project:'失效分析',id:'NT-261120-002',title:'临时检测任务报告',completed:'2026-11-20'},
+  {person:'p4',module:'乃棠检测服务',project:'失效分析',id:'NT-260722-004',title:'连接器失效复核报告',completed:'2026-07-22'},
+  {person:'p2',module:'内部业务',project:'标准数据',id:'IN-260727-002',title:'检测标准核对记录',completed:'2026-07-27'},
+  {person:'p5',module:'内部业务',project:'切片管理',id:'IN-261119-001',title:'内部切片记录',completed:'2026-11-19'},
+  {person:'p6',module:'售后业务',project:'售后检测相关',id:'AS-261115-004',title:'售后检测结果登记',completed:'2026-11-15'}
+];
+const rewardTiers = [
+  {name:'一档',amount:800},
+  {name:'二档',amount:500,percent:80},
+  {name:'三档',amount:300,percent:70},
+  {name:'四档',amount:100,percent:60}
+];
+const rewardStart = 10000;
+const configRows = catalog.flatMap(group=>group.rows);
+const defaultConfig = configRows.map(([, ...values])=>values);
+const historyExample = {
+  requests:[
+    {id:'A-HIST-01',person:'p4',recordId:'NT-260722-004',asked:220,points:200,reason:'补做连接器失效复核并整理对照结果',submitted:'2026-07-23',status:'approved',reviewed:'2026-07-24',reviewer:'主管'},
+    {id:'A-HIST-02',person:'p2',recordId:'IN-260727-002',asked:160,reason:'核对检测标准版本并补齐记录',submitted:'2026-07-28',status:'rejected',reviewed:'2026-07-29',reviewer:'主管',note:'已按业务项目计分。'}
+  ],
+  direct:[{id:'D-HIST-01',person:'p4',recordId:'NT-260722-004',points:80,reason:'协助复核历史样品记录',date:'2026-07-30'}],
+  configs:{'2026-07':configRows.map(([name,...values])=>name==='内部来料管理'?[1,3,4]:values)}
+};
+const baseline = {
+  requests:[
+    {id:'A-001',person:'p2',recordId:'NT-261124-003',asked:550,reason:'协助完成紧急样品的复测与结果核对',submitted:'2026-11-24',status:'pending'},
+    {id:'A-002',person:'p3',recordId:'IN-261122-005',asked:180,reason:'整理检测设备操作说明并组织组内培训',submitted:'2026-11-22',status:'pending'},
+    {id:'A-003',person:'p2',recordId:'IN-261118-007',asked:120,reason:'补录当月检测资料',submitted:'2026-11-18',status:'rejected',note:'该工作已包含在业务计分中。',reviewed:'2026-11-19',reviewer:'主管'},
+    {id:'A-004',person:'p1',recordId:'NT-261030-006',asked:240,reason:'协助整理上一期专项检测报告',submitted:'2026-10-30',status:'pending'},
+    ...historyExample.requests
+  ],
+  direct:[{id:'D-001',person:'p4',points:100,reason:'协助处理临时检测任务',date:'2026-11-20'},...historyExample.direct],
+  configs:{'2026-10':defaultConfig,...historyExample.configs}
+};
+const storageKey = 'lab-score-prototype-v1';
+let data = structuredClone(baseline);
+try {
+  const saved=localStorage.getItem(storageKey);
+  if(saved) {
+    data=JSON.parse(saved);
+    for(const request of data.requests) {
+      const example=baseline.requests.find(row=>row.id===request.id&&row.person===request.person);
+      if(example) request.recordId??=example.recordId;
+    }
+    for(const key of ['requests','direct']) {
+      data[key].push(...historyExample[key].filter(example=>!data[key].some(row=>row.id===example.id)));
+    }
+    data.configs={...historyExample.configs,...data.configs};
+  }
+} catch {}
+let role='supervisor', tab='config', month=monthNow, queueFilter='all', myFilter='all';
+let drafts={};
+const $ = id=>document.getElementById(id);
+const staff = ()=>role!=='supervisor';
+const personName = id=>people.find(item=>item.id===id)?.name ?? id;
+const num = val=>new Intl.NumberFormat('zh-CN',{maximumFractionDigits:2}).format(val);
+const e = val=>String(val??'').replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
+const monthOf = date=>date.slice(0,7);
+const save = ()=>{try {localStorage.setItem(storageKey,JSON.stringify(data));} catch {}};
+const rowsIn = (rows,dateKey)=>rows.filter(row=>monthOf(row[dateKey])===month);
+const idFor = prefix=>prefix+'-'+Date.now()+'-'+Math.random().toString(36).slice(2,6);
+const validPoints = value=>Number.isSafeInteger(value)&&value>0;
+const completedRecords = person=>businessRecords.filter(record=>record.person===person&&record.completed);
+const recordFor = request=>completedRecords(request.person).find(record=>record.id===request.recordId);
+const recordLabel = record=>`${record.id} · ${record.title}`;
+const projectLabel = record=>`${record.module} · ${record.project}`;
+const recordLink = record=>action(e(recordLabel(record)),'linked-record',record.id,'aria-haspopup="dialog" aria-controls="record-picker"');
+const option = (value,label)=>`<option value="${e(value)}">${e(label)}</option>`;
+const monthField = label=>`<label class="month">${label} <input id="month" type="month" value="${e(month)}" required></label>`;
+const badge = status=>`<span class="tag ${status}">${statuses[status]}</span>`;
+const action = (label,type,id='',extra='')=>`<button type="button" class="link" data-action="${type}" data-id="${e(id)}" ${extra}>${label}</button>`;
+const button = (label,type)=>`<button type="button" class="btn primary" data-action="${type}">${label}</button>`;
+const tbl = (cols,rows,empty='所选月份暂无记录')=>`<div class="scroll"><table><thead><tr>${cols.map(x=>`<th scope="col">${x}</th>`).join('')}</tr></thead><tbody>${rows.join('')||`<tr><td colspan="${cols.length}" class="empty">${empty}</td></tr>`}</tbody></table></div>`;
+const heading = (title,sub='',right='')=>`<div class="section-head"><div><h2>${title}</h2>${sub&&`<p class="subtitle">${sub}</p>`}</div>${right}</div>`;
+const filterBar = (id,choices)=>`<div class="toolbar controls request-filters">
+  ${monthField('月份')}
+  <label class="month">状态 <select id="${id}">${choices.map(([value,label])=>option(value,label)).join('')}</select></label>
+</div>`;
+const requestFilters = [['all','全部'],['pending','待审批'],['approved','已同意'],['rejected','不同意']];
+const bonusEntries = id=>[
+  ...rowsIn(data.requests,'submitted').filter(x=>x.person===id&&x.status==='approved').map(x=>({date:x.submitted,points:x.points})),
+  ...rowsIn(data.direct,'date').filter(x=>x.person===id)
+].sort((a,b)=>b.date.localeCompare(a.date));
+function tierFor(total,leader,place) {
+  if(leader<rewardStart||place>4||total<=6000) return null;
+  if(place===1) return rewardTiers[0];
+  return rewardTiers.slice(1).find(tier=>total*100>=leader*tier.percent)??null;
+}
+function ranking() {
+  const businessScores=projectScoreHistory[month];
+  if(!businessScores&&!rowsIn(data.requests,'submitted').some(x=>x.status==='approved')&&!rowsIn(data.direct,'date').length) return [];
+  const result=people.map((person,index)=>{
+    const projects=businessScores?.[person.id]??[];
+    const business=projects.reduce((sum,[,points])=>sum+points,0);
+    const additions=bonusEntries(person.id);
+    const bonus=additions.reduce((sum,entry)=>sum+entry.points,0);
+    return {...person,index,business,projects,additions,total:business+bonus};
+  });
+  result.sort((a,b)=>b.total-a.total||b.business-a.business||a.index-b.index);
+  return result.map((row,index)=>({...row,place:index+1,tier:tierFor(row.total,result[0].total,index+1)}));
+}
+function linkedModule(row) {
+  const record=recordFor(row);
+  return record?`<div class="muted">${e(projectLabel(record))}</div>${recordLink(record)}`:'';
+}
+function configView() {
+  const applications=rowsIn(data.requests,'submitted');
+  const pending=applications.filter(x=>x.status==='pending').length;
+  const records=[
+    ...applications.map(x=>({...x,source:'员工申请',date:x.submitted})),
+    ...rowsIn(data.direct,'date').map(x=>({...x,source:'主管直接加分',status:'direct'}))
+  ].filter(x=>queueFilter==='all'||x.status===queueFilter);
+  records.sort((a,b)=>Number(b.status==='pending')-Number(a.status==='pending')||b.date.localeCompare(a.date));
+  const items=records.map(row=>`<tr><td class="nowrap">${row.date}</td><td class="strong nowrap">${personName(row.person)}</td><td class="nowrap">${row.source}</td>
+    <td class="reason">${e(row.reason)}</td><td class="reason">${linkedModule(row)||'—'}</td><td class="numeric">${row.asked??'—'}</td>
+    <td>${badge(row.status)}</td><td class="approval-note">${e(row.note||'—')}</td><td>${row.status==='pending'?
+    `<div class="actions">${action('同意','approve',row.id)+action('不同意','reject',row.id)}</div>`:''}</td></tr>`);
+  const savedMonths=Object.keys(data.configs).filter(x=>x<month).sort().reverse();
+  const values=drafts[month]??data.configs[month]??defaultConfig;
+  const configStatus=drafts[month]?'有未保存的修改':data.configs[month]?'已存档':'暂无存档，当前显示默认配置';
+  let index=0;
+  const groups=catalog.map(group=>{
+    const configRows=group.rows.map(([name])=>{
+      const rowIndex=index++;
+      const fields=['计分系数','分值','预估时间'].map((label,key)=>`<td><input type="number" class="config-field" min="0" step="any" aria-label="${name} ${label}" data-row="${rowIndex}" data-col="${key}" value="${e(values[rowIndex]?.[key])}" placeholder="待填写">${key===1?`<span class="unit">分/${group.unit}</span>`:key===2?`<span class="unit">分钟/${group.unit}</span>`:''}</td>`);
+      return `<tr><td class="nowrap">${name}</td><td class="nowrap">按${group.unit}</td>${fields.join('')}</tr>`;
+    });
+    return `<details open><summary>${group.title}</summary>${tbl(['项目','计分方式','计分系数','分值','预估时间'],configRows)}</details>`;
+  });
+  const statusOptions=[['all','全部'],['pending',`待审批（${pending}）`],...requestFilters.slice(2),['direct',statuses.direct]];
+  return `<section class="panel">${heading('主管自主加分','审批通过后，核准分值计入申请提交月。',button('＋ 主管直接加分','direct'))}
+    ${filterBar('queue-status',statusOptions)}
+    ${tbl(['申请时间','员工','来源','加分说明','关联记录','申请分值','状态','审批意见','操作'],items)}</section>
+    <section class="panel config">${heading('月度计分配置',`${e(month)} · ${configStatus}`)}
+    <form id="config-form"><div class="toolbar controls"><label for="archived">月度积分配置存档</label>
+    <select id="archived">${option('','选择往期配置')}${savedMonths.map(x=>option(x,x)).join('')}</select>
+    <button type="button" class="btn" data-action="load-config">载入往期配置</button><button class="btn primary" type="submit">保存为所选月份配置</button></div>
+    ${groups.join('')}</form><p class="footnote">项目得分 = 已完成数量 × 每份或每条分值 × 计分系数。系数和分值均填写后参与计分，预估时间仅作记录。</p></section>`;
+}
+function applyView() {
+  if(!staff()) return `<section class="panel">${heading('积分申请','选择页面右上角的检测人员演示身份，体验提交申请和查看本人的记录。')}</section>`;
+  const own=rowsIn(data.requests,'submitted').filter(x=>x.person===role&&(myFilter==='all'||x.status===myFilter)).sort((a,b)=>b.submitted.localeCompare(a.submitted));
+  return `<section class="panel">${heading('我的积分申请',`${personName(role)}的申请记录按提交月份查询。`,button('＋ 新建申请','apply'))}
+    ${month!==monthNow?`<p class="rule-note">新申请提交后会显示在 ${monthNow} 的记录中。</p>`:''}
+    ${filterBar('my-status',requestFilters)}
+    ${tbl(['申请时间','加分说明','关联记录','申请分值','入账分值','审批状态','审批意见'],own.map(x=>`<tr><td class="nowrap">${x.submitted}</td><td class="reason">${e(x.reason)}</td><td class="reason">${linkedModule(x)||'—'}</td><td class="numeric">${x.asked}</td><td class="numeric points">${x.points?num(x.points):'—'}</td><td>${badge(x.status)}</td><td class="approval-note">${e(x.note||'—')}</td></tr>`),'所选月份暂无符合条件的个人申请')}</section>`;
+}
+function rewardView() {
+  const rank=ranking(), leader=rank[0]?.total??0;
+  const active=leader>=rewardStart;
+  const reason = row=>row.place>4?'未入围':row.total<=6000?'积分不足':!active?'未启动':'未达标';
+  return `<section class="panel">${heading('月度人员积分排行','同分时先比较业务积分，仍相同则按固定人员顺序。',`<button type="button" class="btn" data-action="rules">奖励规则</button>`)}
+    ${tbl(['排名','检测人员','总积分','奖励档位','核算奖金','操作'],rank.map(row=>`<tr>
+    <td class="numeric strong">${row.place}</td><td class="strong nowrap">${row.name}${role===row.id?' <span class="muted">（我）</span>':''}</td>
+    <td class="numeric strong">${num(row.total)}</td><td class="nowrap">${row.tier?.name??'—'}</td>
+    <td>${row.tier?`<span class="strong money nowrap">¥${num(row.tier.amount)}</span>`:`<span class="tag none">${reason(row)}</span>`}</td>
+    <td>${action('积分明细','score-detail',row.id)}</td></tr>`),'所选月份暂无积分数据')}
+    <p class="rule-note">${active?`当月档位门槛 · ${rewardTiers.slice(1).map(tier=>`${tier.name} ≥ ${num(leader*tier.percent/100)} 分`).join(' · ')}`:'当月第一名积分达到 10,000 分才启动排名奖励。'}</p></section>`;
+}
+function render(focusTab=false) {
+  $('role').value=role;
+  $('header-month').innerHTML=tab==='reward'?monthField('查询月份'):'';
+  const pending=rowsIn(data.requests,'submitted').filter(x=>x.status==='pending').length;
+  const tabs=[...(!staff()?[['config','积分配置']]:[]),['apply','积分申请'],['reward','积分奖励']];
+  $('tabs').innerHTML=tabs.map(([key,label])=>`<button id="tab-${key}" role="tab" aria-controls="content" aria-selected="${tab===key}" tabindex="${tab===key?0:-1}" class="tab" data-action="tab" data-id="${key}">${label}${key==='config'&&pending?`<span class="pill" title="待审批">${pending}</span>`:''}</button>`).join('');
+  $('content').setAttribute('aria-labelledby','tab-'+tab);
+  $('content').innerHTML=tab==='config'?configView():tab==='apply'?applyView():rewardView();
+  if(tab==='config') $('queue-status').value=queueFilter;
+  if(tab==='apply'&&staff()) $('my-status').value=myFilter;
+  if(focusTab) $('tab-'+tab).focus();
+}
+let noticeTimer;
+function notify(message) {
+  const notice=$('notice');
+  clearTimeout(noticeTimer);
+  notice.textContent=message;
+  notice.hidden=false;
+  noticeTimer=setTimeout(()=>notice.hidden=true,3500);
+}
+function openDialog(title,body,submit='',handler=null,wide=false) {
+  const box=$('modal'),form=$('dialog-form');
+  box.classList.toggle('wide',wide);
+  box.setAttribute('aria-labelledby','dialog-title');
+  form.innerHTML=`<div class="modal-head"><h2 id="dialog-title">${title}</h2><button type="button" class="close" aria-label="关闭" data-action="close">×</button></div>
+    <div class="modal-body">${body}</div><div class="modal-foot"><button type="button" class="btn" data-action="close">${submit?'取消':'关闭'}</button>
+    ${submit?`<button class="btn primary" type="submit">${submit}</button>`:''}</div>`;
+  form.onsubmit=event=>{
+    event.preventDefault();
+    if(!handler||handler(new FormData(form))===false) return;
+    box.close();
+    save();
+    render();
+  };
+  box.showModal();
+}
+const field=(label,control)=>`<label class="field"><span>${label}</span>${control}</label>`;
+const pointsField=(label,value='')=>field(label,`<input name="points" type="number" min="1" max="${Number.MAX_SAFE_INTEGER}" step="1" required value="${value}">`);
+const noteField=(label,required=false)=>field(label,`<textarea name="note" maxlength="300" ${required?'required':''}></textarea>`);
+const facts=entries=>`<dl class="facts">${entries.map(([label,value])=>`<dt>${label}</dt><dd>${value}</dd>`).join('')}</dl>`;
+function associationFacts(row) {
+  const record=recordFor(row);
+  return [['关联模块',record?e(projectLabel(record)):'—'],['关联记录',record?recordLink(record):'—']];
+}
+function requestFacts(row) {
+  return facts([['申请人',personName(row.person)],['提交日期',row.submitted],['积分归属月',monthOf(row.submitted)],
+    ...associationFacts(row),
+    ['申请分值',num(row.asked)],['申请说明',e(row.reason)],['审批状态',badge(row.status)],
+    ...(row.reviewed?[['审批日期',row.reviewed],['审批人',e(row.reviewer)],['核准入账分值',row.points?num(row.points):'—'],['审批意见',e(row.note||'—')]]:[])]);
+}
+function validateNote(form,required) {
+  const input=$('dialog-form').elements.note;
+  const raw=form.get('note')??'';
+  if(required&&!raw.trim()) {
+    input.setCustomValidity('请填写说明');
+    input.reportValidity();
+    input.addEventListener('input',()=>input.setCustomValidity(''),{once:true});
+    return null;
+  }
+  return raw.trim();
+}
+function pickBusinessRecord(records,selectedId,onSelect,returnLabel='返回申请') {
+  const picker=$('record-picker'),body=$('picker-body');
+  $('picker-title').textContent=projectLabel(records[0]);
+  $('picker-return').textContent=onSelect?returnLabel:'关闭';
+  const rows=records.map(record=>{
+    const selected=record.id===selectedId;
+    const columns=[record.order,record.customer,record.title,record.id,personName(record.person),record.samples,record.model,record.completed];
+    return `<tr ${onSelect?`data-record="${e(record.id)}"`:''} class="${selected?'linked':''}">${columns.map(value=>`<td>${e(value??'—')}</td>`).join('')}
+      ${onSelect?`<td><button type="button" class="link" aria-label="${e((selected?'当前关联：':'关联记录：')+recordLabel(record))}">${selected?'已关联':'选择'}</button></td>`:''}</tr>`;
+  });
+  const headers=['订单编码','客户名称','报告 / 记录名称','报告 / 记录编号','负责人','样品数量','型号','完成日期'];
+  body.innerHTML=(onSelect?'<p class="subtitle">选择一条该人员已完成的业务记录。</p>':'')+
+    tbl(onSelect?[...headers,'操作']:headers,rows);
+  const scroll=body.querySelector('.scroll');
+  scroll.classList.add('picker-table');
+  scroll.tabIndex=0;
+  scroll.setAttribute('aria-label','已完成业务记录');
+  body.onclick=onSelect?event=>{
+    const row=event.target.closest('[data-record]');
+    if(!row) return;
+    const record=records.find(item=>item.id===row.dataset.record);
+    onSelect(record);
+    picker.close();
+  }:null;
+  picker.showModal();
+}
+function setupAssociation(person,required) {
+  const groups=new Map();
+  for(const record of completedRecords(person)) {
+    const label=projectLabel(record);
+    if(!groups.has(label)) groups.set(label,[]);
+    groups.get(label).push(record);
+  }
+  const chips=[...groups].map(([label,records])=>{
+    const unit=records[0].module==='内部业务'?'条':'份';
+    return `<button type="button" class="record-chip" aria-haspopup="dialog" aria-controls="record-picker" data-project="${e(label)}">${e(label)}<strong>${records.length} ${unit}</strong></button>`;
+  }).join('');
+  let selectedId;
+  const section=$('association-field');
+  const hint=chips?'点击业务标签选择一条记录。':person?'暂无可关联的已完成业务。':'请先选择检测人员。';
+  section.innerHTML=`<h3 id="association-title">关联业务${required?'':'（选填）'}</h3><div class="record-chips">${chips}</div>
+    <p class="record-summary muted" id="record-summary" aria-live="polite">${hint}</p>
+    <button type="button" class="link" id="clear-association" hidden>取消关联</button>
+    <p class="record-error" id="record-error" role="alert" hidden>请选择一条已完成的业务记录。</p>`;
+  const clear=$('clear-association');
+  const summary=$('record-summary');
+  clear.addEventListener('click',()=>{
+    selectedId=undefined;
+    section.querySelector('.record-chip.linked')?.classList.remove('linked');
+    summary.textContent=hint;
+    clear.hidden=true;
+  });
+  section.querySelectorAll('.record-chip').forEach(chip=>chip.addEventListener('click',()=>{
+    pickBusinessRecord(groups.get(chip.dataset.project),selectedId,record=>{
+      selectedId=record.id;
+      section.querySelector('.record-chip.linked')?.classList.remove('linked');
+      chip.classList.add('linked');
+      summary.textContent=`已关联 ${projectLabel(record)} · ${recordLabel(record)}`;
+      clear.hidden=required;
+      $('record-error').hidden=true;
+    },required?'返回申请':'返回加分');
+  }));
+  return ()=>selectedId;
+}
+const associationField='<section id="association-field" class="record-field" aria-labelledby="association-title"></section>';
+function newApplication() {
+  if(!staff()) return;
+  openDialog('新建积分申请',facts([['申请人',personName(role)],['提交日期',demoToday],['积分归属月',monthNow]])+
+    associationField+
+    pointsField('分值')+
+    field('申请说明','<textarea name="note" maxlength="300" required placeholder="说明这条记录中申请加分的具体原因"></textarea>'),'提交申请',form=>{
+      const reason=validateNote(form,true),asked=Number(form.get('points'));
+      if(reason===null||!validPoints(asked)||!staff()) return false;
+      const record=recordFor({person:role,recordId:getRecordId()});
+      if(!record) {
+        $('record-error').hidden=false;
+        $('dialog-form').querySelector('.record-chip')?.focus();
+        return false;
+      }
+      data.requests.unshift({id:idFor('A'),person:role,recordId:record.id,asked,reason,submitted:demoToday,status:'pending'});
+      month=monthNow;myFilter='all';
+      notify('申请已提交，等待主管审批');
+    });
+  const getRecordId=setupAssociation(role,true);
+  if(!$('association-field').querySelector('.record-chip')) $('dialog-form').querySelector('[type="submit"]').disabled=true;
+}
+function review(id,approve) {
+  const row=data.requests.find(x=>x.id===id);
+  if(staff()||row?.status!=='pending') return;
+  openDialog(approve?'同意积分申请':'不同意积分申请',requestFacts(row)+
+    (approve?pointsField('积分',row.asked):'')+noteField(approve?'审批意见（选填）':'不同意原因',!approve),
+    approve?'同意':'确认不同意',form=>{
+      const note=validateNote(form,!approve),points=Number(form.get('points'));
+      if(staff()||row.status!=='pending'||note===null||(approve&&!validPoints(points))) return false;
+      Object.assign(row,{status:approve?'approved':'rejected',points:approve?points:0,note,reviewer:'主管',reviewed:demoToday});
+      notify(approve?`已将 ${num(points)} 分计入 ${monthOf(row.submitted)}`:'审批结果已更新');
+    });
+}
+function direct() {
+  if(staff()) return;
+  openDialog('主管直接加分',field('检测人员',`<select name="person" required>${option('','请选择')}${people.map(x=>option(x.id,x.name)).join('')}</select>`)+
+    associationField+
+    `<div class="pair">${pointsField('加分值（分）')}${field('加分时间',`<input name="date" type="date" required value="${month===monthNow?demoToday:month+'-01'}">`)}</div>`+
+    noteField('加分说明',true),'确认加分',form=>{
+      const reason=validateNote(form,true),points=Number(form.get('points')),date=form.get('date');
+      const person=form.get('person'),recordId=getRecordId();
+      if(staff()||reason===null||!validPoints(points)||!date||!people.some(item=>item.id===person)) return false;
+      if(recordId&&!recordFor({person,recordId})) return false;
+      data.direct.unshift({id:idFor('D'),person,recordId,points,reason,date});
+      month=monthOf(date);queueFilter='all';
+      notify(`已将 ${num(points)} 分计入 ${month}`);
+    });
+  let getRecordId=setupAssociation('',false);
+  const person=$('dialog-form').elements.person;
+  person.addEventListener('change',()=>{getRecordId=setupAssociation(person.value,false);});
+}
+function detailsFor(id) {
+  const row=ranking().find(x=>x.id===id);
+  if(!row) return;
+  const entries=[
+    ...row.projects.map(([project,points])=>({project,date:month,points})),
+    ...row.additions.map(({date,points})=>({project:'主管自主加分',date,points}))
+  ];
+  openDialog(row.name+' · 积分明细',
+    tbl(['项目','日期','积分'],entries.map(x=>`<tr><td class="reason">${e(x.project)}</td><td class="nowrap">${x.date}</td><td class="numeric">${num(x.points)}</td></tr>`),'所选月份暂无积分明细'),'',null,true);
+}
+function rules() {
+  const rows=rewardTiers.map((tier,index)=>{
+    const upper=rewardTiers[index-1]?.percent;
+    const threshold=index===0?`≥${rewardStart}`:`≥ ${tier.percent}%${upper?` 且 &lt; ${upper}%`:''}`;
+    return `<tr><td>${tier.name}</td><td>${index===0?'第一名':'第 2–4 名'}</td><td>${threshold}</td><td>¥${tier.amount}</td></tr>`;
+  });
+  openDialog('月度排名奖励',tbl(['档位','适用人员','积分门槛','奖金'],rows)+
+    '<section class="reward-note" aria-labelledby="reward-note-title"><h3 id="reward-note-title">提示</h3>'+
+    '<p class="subtitle">当月第一名达到 10,000 分时启动奖励。仅核算前四名，且获奖者的积分须大于 6,000 分。第 2–4 名分别按占第一名积分的比例匹配档位，同一档可多人获得。</p></section>');
+}
+function configValues() {
+  const values=[];
+  $('config-form').querySelectorAll('[data-row]').forEach(input=>{
+    const row=Number(input.dataset.row);
+    (values[row]??=[])[Number(input.dataset.col)]=input.value;
+  });
+  return values;
+}
+$('role').innerHTML=option('supervisor','主管')+people.map(x=>option(x.id,'检测人员 · '+x.name)).join('');
+$('role').addEventListener('change',event=>{
+  role=event.target.value;
+  if(tab==='config'&&staff()) tab='apply';
+  myFilter='all';
+  render();
+});
+document.addEventListener('change',event=>{
+  const {id,value}=event.target;
+  if(id==='month') {
+    if(value) month=value;
+  } else if(id==='queue-status') {
+    queueFilter=value;
+  } else if(id==='my-status') {
+    myFilter=value;
+  } else {
+    return;
+  }
+  render();
+  $(id).focus({preventScroll:true});
+});
+$('content').addEventListener('input',event=>{
+  if(event.target.matches('[data-row]')) drafts[month]=configValues();
+});
+$('content').addEventListener('submit',event=>{
+  if(event.target.id!=='config-form'||staff()) return;
+  event.preventDefault();
+  data.configs[month]=configValues();
+  delete drafts[month];
+  save();render();
+  notify(`已保存 ${month} 的积分配置`);
+});
+$('tabs').addEventListener('keydown',event=>{
+  const tabs=[...$('tabs').querySelectorAll('[role=tab]')], index=tabs.indexOf(event.target);
+  if(index<0||!['ArrowLeft','ArrowRight','Home','End'].includes(event.key)) return;
+  event.preventDefault();
+  const next=event.key==='Home'?0:event.key==='End'?tabs.length-1:(index+(event.key==='ArrowRight'?1:tabs.length-1))%tabs.length;
+  tab=tabs[next].dataset.id;render(true);
+});
+document.addEventListener('click',event=>{
+  const target=event.target.closest('[data-action]');
+  if(!target) return;
+  const {action:type,id}=target.dataset;
+  switch(type) {
+    case 'tab': tab=id;render(true);break;
+    case 'apply':newApplication();break;
+    case 'direct':direct();break;
+    case 'approve':review(id,true);break;
+    case 'reject':review(id,false);break;
+    case 'close':$('modal').close();break;
+    case 'rules':rules();break;
+    case 'score-detail':detailsFor(id);break;
+    case 'linked-record':{
+      const row=[...data.requests,...data.direct].find(x=>x.recordId===id&&(!staff()||x.person===role));
+      const record=row&&recordFor(row);
+      if(record) pickBusinessRecord([record]);
+      break;
+    }
+    case 'load-config':{
+      const archive=$('archived').value;
+      if(!archive) {notify('请先选择往期配置');break;}
+      drafts[month]=structuredClone(data.configs[archive]);render();
+      notify(`已载入 ${archive} 配置，保存后应用`);
+      break;
+    }
+  }
+});
+render();
+</script>
+</body>
+</html>
