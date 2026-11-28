@@ -5,44 +5,157 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>积分管理 · 检测总览</title>
 <style>
-:root{font-family:"Microsoft YaHei UI","PingFang SC",system-ui,sans-serif;color:#22263a;background:#f6f7fb;font-size:14px;--ink:#22263a;--muted:#626b81;--line:#e7e9f2;--purple:#5045b2;--pale:#eeecfc;--green:#15734e;--red:#aa3d51}
-*{box-sizing:border-box}body{margin:0}button,input,select,textarea{font:inherit}button{cursor:pointer}button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:2px solid #7566d3;outline-offset:2px}
-.top{background:#262342;color:#fff}.top-inner,.container{width:min(1216px,calc(100% - 48px));margin:auto}.top-inner{min-height:66px;display:flex;justify-content:space-between;align-items:center;gap:16px}.brand,.identity{display:flex;align-items:center;gap:12px}.brand-mark{display:grid;place-items:center;border-radius:10px;width:32px;height:32px;background:#7666d6;font-weight:700}.identity label{color:#dedaf4}.identity select{color:#fff;background:#383356;border:1px solid #686185}.identity option{color:var(--ink);background:white}
-.container{padding:27px 0 55px}.crumb{font-size:13px;color:var(--muted)}.intro{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;margin:16px 0 21px}.intro h1{font-size:36px;margin:0 0 6px;letter-spacing:-.05em}.intro p,.subtitle{color:var(--muted);margin:0;line-height:1.65}
-.month{display:flex;align-items:center;gap:9px;color:var(--muted);white-space:nowrap}.tabs{display:flex;gap:22px;border-bottom:1px solid var(--line);margin-bottom:20px}.tab{background:none;border:0;border-bottom:3px solid transparent;padding:12px 4px;color:var(--muted);font-weight:600;white-space:nowrap}.tab[aria-selected=true]{border-color:var(--purple);color:var(--purple)}.pill,.tag{display:inline-block;padding:3px 8px;border-radius:5px;font-size:12px;font-weight:600;white-space:nowrap}.pill{margin-left:6px;background:var(--pale);color:var(--purple)}
-.panel{background:white;border:1px solid var(--line);border-radius:12px;margin-bottom:16px;overflow:hidden}.section-head,.toolbar{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;padding:16px 20px}.section-head h2{font-size:18px;margin:0 0 4px}.toolbar{border-top:1px solid var(--line);justify-content:flex-start}.controls{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.request-filters{gap:16px 22px}.request-filters input,.request-filters select{min-width:140px}#header-month:empty{display:none}
-.scroll{overflow-x:auto}table{width:100%;border-collapse:collapse;text-align:left}th,td{padding:12px 15px;border-bottom:1px solid var(--line);vertical-align:middle}th:first-child,td:first-child{padding-left:20px}th:last-child,td:last-child{padding-right:20px}th{font-size:12px;color:#535c73;background:#f7f8fc;white-space:nowrap}tbody tr:last-child td{border-bottom:0}tbody tr:hover{background:#fafaff}.numeric{font-variant-numeric:tabular-nums;white-space:nowrap}.strong{font-weight:700}.muted{color:var(--muted)}.nowrap{white-space:nowrap}.reason{min-width:125px;max-width:370px;overflow-wrap:anywhere}.empty{text-align:center;padding:30px;color:var(--muted)}
-input,select,textarea{border:1px solid #d8dbe8;border-radius:6px;background:white;color:var(--ink);padding:8px 9px;min-width:0}.config-field{width:90px}.unit{font-size:12px;margin-left:5px;color:var(--muted)}.btn{border:1px solid #d8dbe8;background:white;color:var(--ink);padding:8px 12px;border-radius:7px;font-weight:600;white-space:nowrap}.primary{background:var(--purple);color:white;border-color:var(--purple)}.link{background:none;border:0;padding:3px 0;color:var(--purple);font-weight:600;white-space:nowrap}.link:hover{text-decoration:underline}.actions{display:flex;gap:12px;align-items:center}.tag.pending{background:#fff2d6;color:#885808}.tag.approved{background:#e4f6ed;color:var(--green)}.tag.rejected{background:#fbe9ec;color:var(--red)}.tag.direct,.tag.none{background:#eff1f7;color:#59647b}.points{color:var(--green)}.money{color:var(--purple)}
-.rule-note{margin:0;padding:13px 20px;border-top:1px solid var(--line);background:#faf9ff;color:#514779;line-height:1.65}.footnote{margin:0;padding:13px 20px;color:var(--muted);line-height:1.7}
-details summary{cursor:pointer}.config details summary{padding:14px 20px;font-size:15px;font-weight:600}.config details:not(:last-child){border-bottom:1px solid var(--line)}
-dialog{border:1px solid var(--line);border-radius:13px;color:var(--ink);width:min(560px,calc(100% - 30px));padding:0;max-height:calc(100dvh - 30px);box-shadow:0 20px 70px #21194a30}dialog.wide{width:min(820px,calc(100% - 30px))}dialog::backdrop{background:#23213b70}.modal-head,.modal-foot{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:15px 20px}.modal-head{border-bottom:1px solid var(--line)}.modal-head h2{font-size:19px;margin:0}.modal-body{padding:18px 20px}.modal-foot{justify-content:flex-end;border-top:1px solid var(--line)}.close{font-size:19px;line-height:1;background:none;border:0;color:var(--muted)}.field{display:grid;gap:6px;margin-bottom:13px}.field span{font-weight:600}.field textarea{resize:vertical;min-height:75px}.pair{display:grid;grid-template-columns:1fr 1fr;gap:12px}.facts{display:grid;grid-template-columns:max-content 1fr;gap:9px 15px;margin:0 0 16px}.facts dt{color:var(--muted)}.facts dd{margin:0;overflow-wrap:anywhere}.notification{position:fixed;right:20px;bottom:20px;background:#282443;color:white;padding:11px 16px;border-radius:8px;box-shadow:0 4px 18px #27234240;z-index:3}
-@media(max-width:640px){.top-inner,.container{width:calc(100% - 24px)}.top-inner{flex-wrap:wrap;padding:9px 0;gap:8px}.identity{gap:7px}.container{padding-top:17px}.intro{align-items:flex-start;flex-direction:column;margin:12px 0}.intro h1{font-size:30px}.tabs{gap:15px}.section-head,.toolbar{padding:13px}.pair{grid-template-columns:1fr}}
-.record-field{margin-bottom:15px}.record-field h3{font-size:14px;margin:0 0 8px}
-.record-chips{display:flex;flex-wrap:wrap;gap:7px}.record-chip{background:#f4f7fb;border:1px solid #dce5f1;border-radius:6px;padding:6px 9px;color:#435471;text-align:left}
-.record-chip strong{color:#215fa5;white-space:nowrap;margin-left:5px}.record-chip:hover,.record-chip.linked{background:var(--pale);border-color:#c9bff2;color:var(--purple)}
-.record-summary{margin:9px 0 0;line-height:1.6}.record-error{color:var(--red);margin:6px 0 0}
-.reason .link,.facts .link{white-space:normal;text-align:left}
-.approval-note{min-width:7em;max-width:20em;white-space:pre-wrap;overflow-wrap:anywhere}
-#record-picker{width:min(1080px,calc(100% - 30px))}#record-picker::backdrop{background:#23213b45}
-#record-picker .modal-body{padding-top:12px}#record-picker .subtitle{margin-bottom:10px}
-.picker-table{border:1px solid var(--line);border-radius:7px;max-height:55dvh}
-.picker-table table{min-width:870px}.picker-table th,.picker-table td{padding:10px;white-space:nowrap}
-.picker-table th{position:sticky;top:0;z-index:1}.picker-table td{border-right:1px solid var(--line)}
-.picker-table th:last-child,.picker-table td:last-child{position:sticky;right:0;border-left:1px solid var(--line)}
-.picker-table th:last-child{z-index:2}.picker-table td:last-child{background:white}.picker-table tr[data-record]{cursor:pointer}
-.picker-table tr[data-record]:hover td,.picker-table tr[data-record]:focus-within td,.picker-table tr.linked td{background:#fff6dc}
-.reward-note{margin-top:14px;padding:12px 14px;background:#f6f5fc;border:1px solid var(--line);border-radius:8px;font-size:12px}
-.reward-note h3{margin:0 0 5px;font-size:inherit;color:var(--ink)}
+:root {
+  font: 13px/1.5 "Microsoft YaHei UI", "PingFang SC", system-ui, sans-serif;
+  color: #2c3440;
+  background: #eef0f2;
+  --ink: #2c3440;
+  --muted: #606b79;
+  --line: #e7eaef;
+  --control-border: #d8dee7;
+  --table-head: #f4f6f8;
+  --blue: #287bd3;
+  --blue-text: #1768b7;
+  --blue-light: #edf6ff;
+  --green: #15734e;
+  --red: #aa3d51;
+}
+* { box-sizing: border-box; }
+body { margin: 0; }
+button, input, select, textarea { font: inherit; }
+button { cursor: pointer; }
+button:disabled { opacity: .55; cursor: default; }
+:is(button, input, select, textarea):focus-visible { outline: 2px solid var(--blue); outline-offset: 2px; }
+
+.top { background: #fff; border-bottom: 1px solid var(--line); }
+.top-inner, .container { width: calc(100% - 24px); margin-inline: auto; }
+.top-inner { min-height: 44px; display: flex; justify-content: space-between; align-items: center; gap: 8px 16px; flex-wrap: wrap; }
+.brand, .identity { display: flex; align-items: center; gap: 8px; }
+.brand { color: var(--muted); font-size: 12px; }
+.brand strong { color: var(--blue-text); }
+.identity label { color: var(--muted); font-size: 12px; white-space: nowrap; }
+.identity select { max-width: 100%; }
+.container { padding: 8px 0 28px; }
+.intro { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px 16px; margin-bottom: 8px; }
+.intro h1 { font-size: 19px; margin: 0; line-height: 1.6; }
+.subtitle { color: var(--muted); margin: 0; line-height: 1.55; }
+.month { display: flex; align-items: center; gap: 7px; color: var(--muted); white-space: nowrap; }
+.tabs { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 9px; }
+.tab { display: inline-flex; align-items: center; gap: 6px; background: #fff; border: 1px solid #e3e8ef; border-radius: 5px; padding: 6px 11px; color: var(--ink); font-weight: 600; white-space: nowrap; }
+.tab:hover { border-color: #b8d6f4; color: var(--blue-text); }
+.tab[aria-selected=true] { background: var(--blue); border-color: var(--blue); color: #fff; }
+.pill, .tag { display: inline-block; padding: 2px 6px; border-radius: 4px; font-size: 11px; white-space: nowrap; }
+.pill { background: var(--blue-light); color: var(--blue-text); }
+.tab[aria-selected=true] .pill { background: #fff; }
+
+.panel { background: #fff; border: 1px solid #e6e9ed; border-radius: 7px; margin-bottom: 8px; overflow: hidden; }
+.section-head, .toolbar { display: flex; align-items: center; justify-content: space-between; gap: 8px 12px; flex-wrap: wrap; padding: 9px 11px; }
+.section-head h2 { font-size: 15px; margin: 0; }
+.section-head .subtitle { font-size: 12px; margin-top: 2px; }
+.toolbar { border-top: 1px solid var(--line); justify-content: flex-start; }
+.controls { display: flex; gap: 7px; align-items: center; flex-wrap: wrap; }
+.request-filters { gap: 8px 14px; }
+.request-filters input, .request-filters select { min-width: 114px; }
+#header-month:empty { display: none; }
+#header-month { padding: 4px 8px; background: #fff; border: 1px solid var(--line); border-radius: 6px; }
+.scroll { overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; text-align: left; }
+th, td { padding: 8px 10px; border-bottom: 1px solid #edf0f3; vertical-align: middle; line-height: 1.5; }
+th { font-size: 12px; font-weight: 600; color: #414d5c; background: var(--table-head); white-space: nowrap; }
+th + th { box-shadow: inset 1px 0 #e8ebef; }
+tbody tr:last-child td { border-bottom: 0; }
+tbody tr:hover { background: #f5faff; }
+.numeric { font-variant-numeric: tabular-nums; white-space: nowrap; }
+.strong { font-weight: 600; }
+.muted { color: var(--muted); }
+.nowrap { white-space: nowrap; }
+.reason { min-width: 112px; max-width: 370px; overflow-wrap: anywhere; }
+.approval-note { min-width: 7em; max-width: 20em; white-space: pre-wrap; overflow-wrap: anywhere; }
+.empty { text-align: center; padding: 24px 10px; color: var(--muted); }
+
+input, select, textarea, .btn { border: 1px solid var(--control-border); border-radius: 4px; background: #fff; color: var(--ink); }
+input, select, textarea { padding: 4px 7px; min-width: 0; }
+.config-field { width: 74px; }
+.unit { font-size: 11px; margin-left: 5px; color: var(--muted); white-space: nowrap; }
+.btn { padding: 4px 10px; font-weight: 600; white-space: nowrap; }
+.btn:hover:not(:disabled) { border-color: #a9cdf0; color: var(--blue-text); }
+.primary, .primary:hover:not(:disabled) { background: var(--blue); border-color: var(--blue); color: #fff; }
+.primary:hover:not(:disabled) { background: var(--blue-text); border-color: var(--blue-text); }
+.link { background: none; border: 0; padding: 1px 0; color: var(--blue-text); white-space: nowrap; }
+.link:hover { text-decoration: underline; }
+.reason .link, .facts .link { white-space: normal; text-align: left; }
+.actions { display: flex; align-items: center; gap: 8px; }
+.tag.pending { background: #fff4de; color: #865800; }
+.tag.approved { background: #eaf7ef; color: var(--green); }
+.tag.rejected { background: #fceef0; color: var(--red); }
+.tag.direct, .tag.none { background: #f0f2f5; color: #526172; }
+.points { color: var(--green); }
+.money { color: var(--blue-text); }
+.rule-note, .footnote { margin: 0; padding: 8px 11px; border-top: 1px solid var(--line); color: var(--muted); line-height: 1.55; }
+.rule-note { background: #f4f8fd; }
+details summary { cursor: pointer; }
+.config details { border-top: 6px solid #eef0f2; }
+.config details summary { padding: 8px 11px; font-size: 13px; font-weight: 600; }
+
+dialog { border: 1px solid var(--line); border-radius: 7px; color: var(--ink); width: min(560px, calc(100% - 24px)); padding: 0; max-height: calc(100dvh - 24px); box-shadow: 0 14px 40px #29384932; }
+dialog.wide { width: min(820px, calc(100% - 24px)); }
+dialog::backdrop { background: #2533455c; }
+.modal-head, .modal-foot { display: flex; justify-content: space-between; align-items: center; gap: 8px; padding: 10px 14px; }
+.modal-head { border-bottom: 1px solid var(--line); }
+.modal-head h2 { font-size: 16px; margin: 0; }
+.modal-body { padding: 12px 14px; }
+.modal-foot { justify-content: flex-end; border-top: 1px solid var(--line); }
+.close { font-size: 18px; line-height: 1; background: none; border: 0; color: var(--muted); }
+.field { display: grid; gap: 4px; margin-bottom: 10px; }
+.field span { font-weight: 600; }
+.field textarea { resize: vertical; min-height: 68px; }
+.pair { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.facts { display: grid; grid-template-columns: max-content 1fr; gap: 5px 12px; margin: 0 0 12px; }
+.facts dt { color: var(--muted); }
+.facts dd { margin: 0; overflow-wrap: anywhere; }
+.notification { position: fixed; right: 12px; bottom: 12px; background: #33475c; color: white; padding: 8px 12px; border-radius: 5px; z-index: 3; }
+
+.record-field { margin-bottom: 11px; }
+.record-field h3 { font-size: 13px; margin: 0 0 5px; }
+.record-chips { display: flex; flex-wrap: wrap; gap: 5px; }
+.record-chip { background: #f5f8fc; border: 1px solid #dce6f2; border-radius: 4px; padding: 4px 7px; color: #435471; text-align: left; }
+.record-chip strong { color: var(--blue-text); white-space: nowrap; margin-left: 5px; }
+.record-chip:hover, .record-chip.linked { background: var(--blue-light); border-color: #a9cdf0; color: var(--blue-text); }
+.record-summary { margin: 6px 0 0; }
+.selected-records { margin: 4px 0 0; padding-left: 18px; overflow-wrap: anywhere; }
+.selected-records .link { margin-left: 6px; }
+#record-picker { width: min(1080px, calc(100% - 24px)); }
+#record-picker::backdrop { background: #25334538; }
+#record-picker .subtitle { margin-bottom: 8px; }
+.picker-table { border: 1px solid var(--line); border-radius: 4px; max-height: 55dvh; }
+.picker-table table { min-width: 870px; }
+.picker-table th, .picker-table td { white-space: nowrap; }
+.picker-table th { position: sticky; top: 0; z-index: 1; }
+.picker-table td { border-right: 1px solid var(--line); }
+.picker-table th:last-child, .picker-table td:last-child { position: sticky; right: 0; border-left: 1px solid var(--line); }
+.picker-table th:last-child { z-index: 2; }
+.picker-table td:last-child { background: #fff; }
+.picker-table tr[data-record] { cursor: pointer; }
+.picker-table tr[data-record]:hover td, .picker-table tr[data-record]:focus-within td, .picker-table tr.linked td { background: var(--blue-light); }
+.reward-note { margin-top: 10px; padding: 8px 10px; background: #f4f8fd; border: 1px solid #e4edf7; border-radius: 4px; font-size: 12px; }
+.reward-note h3 { margin: 0 0 4px; font-size: inherit; color: var(--ink); }
+
+@media (max-width: 640px) {
+  .top-inner, .container { width: calc(100% - 16px); }
+  .top-inner { padding-block: 5px; }
+  .section-head, .toolbar { padding-inline: 8px; }
+  .tabs { gap: 5px; }
+  .pair { grid-template-columns: 1fr; }
+}
 </style>
 </head>
 <body>
 <header class="top"><div class="top-inner">
-  <div class="brand"><span class="brand-mark" aria-hidden="true">检</span><strong>检测中心</strong></div>
+  <div class="brand"><span>检测中心</span><span aria-hidden="true">/</span><strong>检测总览</strong></div>
   <div class="identity"><label for="role">演示身份</label><select id="role"></select></div>
 </div></header>
 <main class="container">
-  <div class="crumb">检测中心 / 检测总览</div>
-  <div class="intro"><div><h1>积分管理</h1><p>按月配置计分规则、处理加分申请、查看排名奖励。</p></div>
+  <div class="intro"><h1>积分管理</h1>
     <div id="header-month"></div>
   </div>
   <nav id="tabs" class="tabs" role="tablist" aria-label="积分管理"></nav>
@@ -53,7 +166,7 @@ dialog{border:1px solid var(--line);border-radius:13px;color:var(--ink);width:mi
   <form method="dialog">
     <div class="modal-head"><h2 id="picker-title"></h2><button class="close" aria-label="关闭记录选择">×</button></div>
     <div id="picker-body" class="modal-body"></div>
-    <div class="modal-foot"><button id="picker-return" class="btn">返回申请</button></div>
+    <div class="modal-foot"><button id="picker-return" class="btn">返回申请</button><button id="picker-confirm" type="button" class="btn primary" hidden>确认选择</button></div>
   </form>
 </dialog>
 <div id="notice" class="notification" role="status" hidden></div>
@@ -172,7 +285,11 @@ const rowsIn = (rows,dateKey)=>rows.filter(row=>monthOf(row[dateKey])===month);
 const idFor = prefix=>prefix+'-'+Date.now()+'-'+Math.random().toString(36).slice(2,6);
 const validPoints = value=>Number.isSafeInteger(value)&&value>0;
 const completedRecords = person=>businessRecords.filter(record=>record.person===person&&record.completed);
-const recordFor = request=>completedRecords(request.person).find(record=>record.id===request.recordId);
+function associatedRecords(row) {
+  const available=completedRecords(row.person);
+  const ids=row.recordIds??(row.recordId?[row.recordId]:[]);
+  return ids.map(id=>available.find(record=>record.id===id)).filter(Boolean);
+}
 const recordLabel = record=>`${record.id} · ${record.title}`;
 const projectLabel = record=>`${record.module} · ${record.project}`;
 const recordLink = record=>action(e(recordLabel(record)),'linked-record',record.id,'aria-haspopup="dialog" aria-controls="record-picker"');
@@ -211,12 +328,10 @@ function ranking() {
   return result.map((row,index)=>({...row,place:index+1,tier:tierFor(row.total,result[0].total,index+1)}));
 }
 function linkedModule(row) {
-  const record=recordFor(row);
-  return record?`<div class="muted">${e(projectLabel(record))}</div>${recordLink(record)}`:'';
+  return associatedRecords(row).map(record=>`<div><span class="muted">${e(projectLabel(record))}</span> · ${recordLink(record)}</div>`).join('');
 }
 function configView() {
   const applications=rowsIn(data.requests,'submitted');
-  const pending=applications.filter(x=>x.status==='pending').length;
   const records=[
     ...applications.map(x=>({...x,source:'员工申请',date:x.submitted})),
     ...rowsIn(data.direct,'date').map(x=>({...x,source:'主管直接加分',status:'direct'}))
@@ -238,8 +353,8 @@ function configView() {
     });
     return `<details open><summary>${group.title}</summary>${tbl(['项目','计分方式','计分系数','分值','预估时间'],configRows)}</details>`;
   });
-  const statusOptions=[['all','全部'],['pending',`待审批（${pending}）`],...requestFilters.slice(2),['direct',statuses.direct]];
-  return `<section class="panel">${heading('主管自主加分','审批通过后，核准分值计入申请提交月。',button('＋ 主管直接加分','direct'))}
+  const statusOptions=[...requestFilters,['direct',statuses.direct]];
+  return `<section class="panel">${heading('加分记录','审批通过后，核准分值计入申请提交月。',button('＋ 主管直接加分','direct'))}
     ${filterBar('queue-status',statusOptions)}
     ${tbl(['申请时间','员工','来源','加分说明','关联记录','申请分值','状态','审批意见','操作'],items)}</section>
     <section class="panel config">${heading('月度计分配置',`${e(month)} · ${configStatus}`)}
@@ -261,7 +376,7 @@ function rewardView() {
   const active=leader>=rewardStart;
   const reason = row=>row.place>4?'未入围':row.total<=6000?'积分不足':!active?'未启动':'未达标';
   return `<section class="panel">${heading('月度人员积分排行','同分时先比较业务积分，仍相同则按固定人员顺序。',`<button type="button" class="btn" data-action="rules">奖励规则</button>`)}
-    ${tbl(['排名','检测人员','总积分','奖励档位','核算奖金','操作'],rank.map(row=>`<tr>
+    ${tbl(['排名','检测人员','总积分','奖励档位','奖金','操作'],rank.map(row=>`<tr>
     <td class="numeric strong">${row.place}</td><td class="strong nowrap">${row.name}${role===row.id?' <span class="muted">（我）</span>':''}</td>
     <td class="numeric strong">${num(row.total)}</td><td class="nowrap">${row.tier?.name??'—'}</td>
     <td>${row.tier?`<span class="strong money nowrap">¥${num(row.tier.amount)}</span>`:`<span class="tag none">${reason(row)}</span>`}</td>
@@ -308,13 +423,9 @@ const field=(label,control)=>`<label class="field"><span>${label}</span>${contro
 const pointsField=(label,value='')=>field(label,`<input name="points" type="number" min="1" max="${Number.MAX_SAFE_INTEGER}" step="1" required value="${value}">`);
 const noteField=(label,required=false)=>field(label,`<textarea name="note" maxlength="300" ${required?'required':''}></textarea>`);
 const facts=entries=>`<dl class="facts">${entries.map(([label,value])=>`<dt>${label}</dt><dd>${value}</dd>`).join('')}</dl>`;
-function associationFacts(row) {
-  const record=recordFor(row);
-  return [['关联模块',record?e(projectLabel(record)):'—'],['关联记录',record?recordLink(record):'—']];
-}
 function requestFacts(row) {
   return facts([['申请人',personName(row.person)],['提交日期',row.submitted],['积分归属月',monthOf(row.submitted)],
-    ...associationFacts(row),
+    ['关联记录',linkedModule(row)||'—'],
     ['申请分值',num(row.asked)],['申请说明',e(row.reason)],['审批状态',badge(row.status)],
     ...(row.reviewed?[['审批日期',row.reviewed],['审批人',e(row.reviewer)],['核准入账分值',row.points?num(row.points):'—'],['审批意见',e(row.note||'—')]]:[])]);
 }
@@ -329,35 +440,47 @@ function validateNote(form,required) {
   }
   return raw.trim();
 }
-function pickBusinessRecord(records,selectedId,onSelect,returnLabel='返回申请') {
-  const picker=$('record-picker'),body=$('picker-body');
+function pickBusinessRecord(records,selectedIds=[],onSelect,multiple=false) {
+  const picker=$('record-picker'),body=$('picker-body'),confirm=$('picker-confirm');
   $('picker-title').textContent=projectLabel(records[0]);
-  $('picker-return').textContent=onSelect?returnLabel:'关闭';
+  $('picker-return').textContent=onSelect?(multiple?'取消':'返回加分'):'关闭';
+  confirm.hidden=!multiple;
   const rows=records.map(record=>{
-    const selected=record.id===selectedId;
+    const selected=selectedIds.includes(record.id);
     const columns=[record.order,record.customer,record.title,record.id,personName(record.person),record.samples,record.model,record.completed];
+    const control=multiple?
+      `<input type="checkbox" value="${e(record.id)}" aria-label="${e(recordLabel(record))}" ${selected?'checked':''}>`:
+      `<button type="button" class="link" aria-label="${e((selected?'当前关联：':'关联记录：')+recordLabel(record))}">${selected?'已关联':'选择'}</button>`;
     return `<tr ${onSelect?`data-record="${e(record.id)}"`:''} class="${selected?'linked':''}">${columns.map(value=>`<td>${e(value??'—')}</td>`).join('')}
-      ${onSelect?`<td><button type="button" class="link" aria-label="${e((selected?'当前关联：':'关联记录：')+recordLabel(record))}">${selected?'已关联':'选择'}</button></td>`:''}</tr>`;
+      ${onSelect?`<td>${control}</td>`:''}</tr>`;
   });
   const headers=['订单编码','客户名称','报告 / 记录名称','报告 / 记录编号','负责人','样品数量','型号','完成日期'];
-  body.innerHTML=(onSelect?'<p class="subtitle">选择一条该人员已完成的业务记录。</p>':'')+
-    tbl(onSelect?[...headers,'操作']:headers,rows);
+  const hint=multiple?'勾选需要关联的记录，然后确认选择。':'选择一条该人员已完成的业务记录。';
+  body.innerHTML=(onSelect?`<p class="subtitle">${hint}</p>`:'')+
+    tbl(onSelect?[...headers,multiple?'勾选':'操作']:headers,rows);
   const scroll=body.querySelector('.scroll');
   scroll.classList.add('picker-table');
   scroll.tabIndex=0;
   scroll.setAttribute('aria-label','已完成业务记录');
-  body.onclick=onSelect?event=>{
+  body.onclick=onSelect&&!multiple?event=>{
     const row=event.target.closest('[data-record]');
     if(!row) return;
-    const record=records.find(item=>item.id===row.dataset.record);
-    onSelect(record);
+    onSelect([row.dataset.record]);
+    picker.close();
+  }:null;
+  body.onchange=multiple?event=>{
+    event.target.closest('[data-record]').classList.toggle('linked',event.target.checked);
+  }:null;
+  confirm.onclick=multiple?()=>{
+    onSelect([...body.querySelectorAll('input:checked')].map(input=>input.value));
     picker.close();
   }:null;
   picker.showModal();
 }
-function setupAssociation(person,required) {
+function setupAssociation(person,multiple=false) {
   const groups=new Map();
-  for(const record of completedRecords(person)) {
+  const records=completedRecords(person);
+  for(const record of records) {
     const label=projectLabel(record);
     if(!groups.has(label)) groups.set(label,[]);
     groups.get(label).push(record);
@@ -366,32 +489,47 @@ function setupAssociation(person,required) {
     const unit=records[0].module==='内部业务'?'条':'份';
     return `<button type="button" class="record-chip" aria-haspopup="dialog" aria-controls="record-picker" data-project="${e(label)}">${e(label)}<strong>${records.length} ${unit}</strong></button>`;
   }).join('');
-  let selectedId;
+  const selectedIds=new Set();
   const section=$('association-field');
-  const hint=chips?'点击业务标签选择一条记录。':person?'暂无可关联的已完成业务。':'请先选择检测人员。';
-  section.innerHTML=`<h3 id="association-title">关联业务${required?'':'（选填）'}</h3><div class="record-chips">${chips}</div>
+  const hint=chips?(multiple?'点击业务标签，可选择一条或多条记录。':'点击业务标签选择一条记录。'):person?'暂无可关联的已完成业务。':'请先选择检测人员。';
+  section.innerHTML=`<h3 id="association-title">关联业务（选填）</h3><div class="record-chips">${chips}</div>
     <p class="record-summary muted" id="record-summary" aria-live="polite">${hint}</p>
-    <button type="button" class="link" id="clear-association" hidden>取消关联</button>
-    <p class="record-error" id="record-error" role="alert" hidden>请选择一条已完成的业务记录。</p>`;
+    <ul class="selected-records" id="selected-records" hidden></ul>
+    <button type="button" class="link" id="clear-association" hidden>清空关联</button>`;
   const clear=$('clear-association');
   const summary=$('record-summary');
+  const list=$('selected-records');
+  const projectChips=section.querySelectorAll('.record-chip');
+  function updateSelection() {
+    const selected=records.filter(record=>selectedIds.has(record.id));
+    summary.textContent=selected.length?`已关联 ${selected.length} 条记录`:hint;
+    list.innerHTML=selected.map(record=>`<li>${e(projectLabel(record))} · ${e(recordLabel(record))}
+      <button type="button" class="link" data-remove-record="${e(record.id)}" aria-label="${e('移除 '+recordLabel(record))}">移除</button></li>`).join('');
+    list.hidden=clear.hidden=!selected.length;
+    projectChips.forEach(chip=>chip.classList.toggle('linked',groups.get(chip.dataset.project).some(record=>selectedIds.has(record.id))));
+  }
   clear.addEventListener('click',()=>{
-    selectedId=undefined;
-    section.querySelector('.record-chip.linked')?.classList.remove('linked');
-    summary.textContent=hint;
-    clear.hidden=true;
+    selectedIds.clear();
+    updateSelection();
+    projectChips[0]?.focus();
   });
-  section.querySelectorAll('.record-chip').forEach(chip=>chip.addEventListener('click',()=>{
-    pickBusinessRecord(groups.get(chip.dataset.project),selectedId,record=>{
-      selectedId=record.id;
-      section.querySelector('.record-chip.linked')?.classList.remove('linked');
-      chip.classList.add('linked');
-      summary.textContent=`已关联 ${projectLabel(record)} · ${recordLabel(record)}`;
-      clear.hidden=required;
-      $('record-error').hidden=true;
-    },required?'返回申请':'返回加分');
+  list.addEventListener('click',event=>{
+    const button=event.target.closest('[data-remove-record]');
+    if(!button) return;
+    selectedIds.delete(button.dataset.removeRecord);
+    updateSelection();
+    (list.querySelector('button')??projectChips[0])?.focus();
+  });
+  projectChips.forEach(chip=>chip.addEventListener('click',()=>{
+    const recordsInProject=groups.get(chip.dataset.project);
+    pickBusinessRecord(recordsInProject,[...selectedIds],ids=>{
+      if(multiple) recordsInProject.forEach(record=>selectedIds.delete(record.id));
+      else selectedIds.clear();
+      ids.forEach(id=>selectedIds.add(id));
+      updateSelection();
+    },multiple);
   }));
-  return ()=>selectedId;
+  return ()=>[...selectedIds];
 }
 const associationField='<section id="association-field" class="record-field" aria-labelledby="association-title"></section>';
 function newApplication() {
@@ -399,21 +537,16 @@ function newApplication() {
   openDialog('新建积分申请',facts([['申请人',personName(role)],['提交日期',demoToday],['积分归属月',monthNow]])+
     associationField+
     pointsField('分值')+
-    field('申请说明','<textarea name="note" maxlength="300" required placeholder="说明这条记录中申请加分的具体原因"></textarea>'),'提交申请',form=>{
+    field('申请说明','<textarea name="note" maxlength="300" required placeholder="请填写申请加分的具体原因"></textarea>'),'提交申请',form=>{
       const reason=validateNote(form,true),asked=Number(form.get('points'));
       if(reason===null||!validPoints(asked)||!staff()) return false;
-      const record=recordFor({person:role,recordId:getRecordId()});
-      if(!record) {
-        $('record-error').hidden=false;
-        $('dialog-form').querySelector('.record-chip')?.focus();
-        return false;
-      }
-      data.requests.unshift({id:idFor('A'),person:role,recordId:record.id,asked,reason,submitted:demoToday,status:'pending'});
+      const recordIds=getRecordIds();
+      if(associatedRecords({person:role,recordIds}).length!==recordIds.length) return false;
+      data.requests.unshift({id:idFor('A'),person:role,recordIds,asked,reason,submitted:demoToday,status:'pending'});
       month=monthNow;myFilter='all';
       notify('申请已提交，等待主管审批');
     });
-  const getRecordId=setupAssociation(role,true);
-  if(!$('association-field').querySelector('.record-chip')) $('dialog-form').querySelector('[type="submit"]').disabled=true;
+  const getRecordIds=setupAssociation(role,true);
 }
 function review(id,approve) {
   const row=data.requests.find(x=>x.id===id);
@@ -434,16 +567,16 @@ function direct() {
     `<div class="pair">${pointsField('加分值（分）')}${field('加分时间',`<input name="date" type="date" required value="${month===monthNow?demoToday:month+'-01'}">`)}</div>`+
     noteField('加分说明',true),'确认加分',form=>{
       const reason=validateNote(form,true),points=Number(form.get('points')),date=form.get('date');
-      const person=form.get('person'),recordId=getRecordId();
+      const person=form.get('person'),[recordId]=getRecordIds();
       if(staff()||reason===null||!validPoints(points)||!date||!people.some(item=>item.id===person)) return false;
-      if(recordId&&!recordFor({person,recordId})) return false;
+      if(recordId&&!associatedRecords({person,recordId}).length) return false;
       data.direct.unshift({id:idFor('D'),person,recordId,points,reason,date});
       month=monthOf(date);queueFilter='all';
       notify(`已将 ${num(points)} 分计入 ${month}`);
     });
-  let getRecordId=setupAssociation('',false);
+  let getRecordIds=setupAssociation('');
   const person=$('dialog-form').elements.person;
-  person.addEventListener('change',()=>{getRecordId=setupAssociation(person.value,false);});
+  person.addEventListener('change',()=>{getRecordIds=setupAssociation(person.value);});
 }
 function detailsFor(id) {
   const row=ranking().find(x=>x.id===id);
@@ -526,8 +659,9 @@ document.addEventListener('click',event=>{
     case 'rules':rules();break;
     case 'score-detail':detailsFor(id);break;
     case 'linked-record':{
-      const row=[...data.requests,...data.direct].find(x=>x.recordId===id&&(!staff()||x.person===role));
-      const record=row&&recordFor(row);
+      const record=[...data.requests,...data.direct]
+        .filter(row=>!staff()||row.person===role)
+        .flatMap(associatedRecords).find(item=>item.id===id);
       if(record) pickBusinessRecord([record]);
       break;
     }
